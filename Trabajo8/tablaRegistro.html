@@ -13,7 +13,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img src="img/Imagen1.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-        Mi empresa
+        SITCAU
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,9 +22,8 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-link" href="inicio.html">Inicio</a>
-          <a class="nav-link active" aria-current="page" href="#">Tablas</a>
+          <a class="nav-link active" aria-current="page" href="#">Tabla</a>
           <a class="nav-link" href="https://facebook.com">Facebook</a>
-          <a class="nav-link disabled">Deshabilitado</a>
         </div>
       </div>
     </div>
@@ -36,23 +35,24 @@
       <div class="col col-md-4">
         <br><br>
         <h1>
-          <center>Nueva mercancia</center>
+          <center>Agregar nuevo producto</center>
         </h1>
+        <br>
         <form action="#" method="get">
           <div class="mb-3">
-            <label for="nombreMerca" class="form-label">Nombre</label>
-            <input type="text" class="form-control" name="nombreMerca" id="nombreMerca" aria-describedby="ayudaMerca">
-            <div id="ayudaMerca" class="form-text">Aqui va el nombre del producto nuevo.</div>
+            <label for="nombreProd" class="form-label">Nombre</label>
+            <input type="text" class="form-control" name="nombreProd" id="nombreProd" aria-describedby="ayudaProducto">
+            <div id="ayudaProducto" class="form-text">Aqui va el nombre del producto nuevo.</div>
           </div>
           <div class="mb-3">
-            <label for="numeroMerca" class="form-label">Cantidad</label>
-            <input type="number" class="form-control" name="numeroMerca" id="numeroMerca"
-              aria-describedby="ayudaNMerca">
-            <div id="ayudaNMerca" class="form-text">Aqui va la cantidad del producto nuevo.</div>
+            <label for="numeroInv" class="form-label">Cantidad</label>
+            <input type="number" class="form-control" name="numeroInv" id="numeroInv" aria-describedby="ayudaNInventario">
+            <div id="ayudaNInventario" class="form-text">Aqui va la cantidad del producto nuevo.</div>
           </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" name="importado" id="importado">
-            <label class="form-check-label" for="importado">Es importado?</label>
+          <div class="mb-3">
+            <label for="precioProd" class="form-label">Precio</label>
+            <input type="number" class="form-control" name="precioProd" id="precioProd" aria-describedby="ayudaPrecio">
+            <div id="ayudaPrecio" class="form-text">Aqui va el precio del producto nuevo.</div>
           </div>
           <button id="registro" type="submit" class="btn btn-primary">Registrar</button>
         </form>
@@ -69,30 +69,23 @@
               <th scope="col">#</th>
               <th scope="col">Nombre</th>
               <th scope="col">Número en Inv.</th>
-              <th scope="col">Importado</th>
+              <th scope="col">Precio</th>
               <th scope="col">Acción</th>
             </tr>
           </thead>
           <tbody id="cuerpoTabla">
             <tr>
               <th scope="row">1</th>
-              <td>Peluche gato</td>
-              <td>10</td>
-              <td>Si</td>
+              <td>Termo</td>
+              <td>12</td>
+              <td>$180</td>
               <td><a onclick="eliminar(this);">Eliminar</a></td>
             </tr>
             <tr>
               <th scope="row">2</th>
-              <td>Peluche perro</td>
-              <td>8</td>
-              <td>No</td>
-              <td><a onclick="eliminar(this);">Eliminar</a></td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Peluche mapache</td>
-              <td>4</td>
-              <td>No</td>
+              <td>Taza</td>
+              <td>22</td>
+              <td>$200</td>
               <td><a onclick="eliminar(this);">Eliminar</a></td>
             </tr>
           </tbody>
@@ -111,20 +104,13 @@
 
     function registrarProducto() {
 
-      /*Obtener los anteriores
-      var datos = document.getElementsByTagName("table")[0].rows;
-      var data = {}
-      Array.from(datos).forEach(element => {
-        console.log(element.innerHTML);
-      });*/
+      var nombreProd = getParameter("nombreProd");
+      var numeroProd = getParameter("numeroInv");
+      var precioProd = getParameter("precioProd");
+      i = 3;
 
-      var nombreMerca = getParameter("nombreMerca");
-      var numeroMerca = getParameter("numeroMerca");
-      var importado = getParameter("importado") == "on";
-      i = 4;
-
-      if (nombreMerca != null && numeroMerca != null) {
-        if (nombreMerca != "" && numeroMerca != "") {
+      if (nombreProd != null && numeroInv != null && precioProd != null) {
+        if (nombreProd != "" && numeroInv != "" && precioProd != "") {
           //alert("Se registro un numevo articulo");
           tabla = document.getElementById("cuerpoTabla");
           nuevoRegistro = document.createElement("tr");
@@ -134,17 +120,13 @@
           id.scope = "row";
 
           nombre = document.createElement("td");
-          nombre.innerHTML = nombreMerca;
+          nombre.innerHTML = nombreProd;
 
           numero = document.createElement("td");
-          numero.innerHTML = numeroMerca;
+          numero.innerHTML = numeroProd;
 
-          importa = document.createElement("td");
-          if (importado) {
-            importa.innerHTML = "Si";
-          } else {
-            importa.innerHTML = "No";
-          }
+          precio = document.createElement("td");
+          precio.innerHTML = "$" + precioProd;
 
           elimina = document.createElement("td");
           accion = document.createElement("a");
@@ -155,7 +137,7 @@
           nuevoRegistro.appendChild(id);
           nuevoRegistro.appendChild(nombre);
           nuevoRegistro.appendChild(numero);
-          nuevoRegistro.appendChild(importa);
+          nuevoRegistro.appendChild(precio);
           nuevoRegistro.appendChild(elimina)
           tabla.appendChild(nuevoRegistro)
         }
